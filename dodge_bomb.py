@@ -21,17 +21,25 @@ def check_bound(rct: pg.Rect)->tuple[bool,bool]:
     if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False
     return yoko,tate
+#ゲームオーバー画面をつくる関数
 def gameover(screen: pg.Surface) -> None:
+     #screenと同じ大きさのサーフェイスを作成
      screen1 = pg.Surface((WIDTH,HEIGHT))
      pg.draw.rect(screen1,(0,0,0),pg.Rect(0,0,WIDTH,HEIGHT))
+     #透明度を半分に調整
      screen1.set_alpha(128)
+     #白文字でGame Overと書かれたフォントサーフェイスを作成
      fonto = pg.font.Font(None,80)
      txt = fonto.render("Game Over",True,(255,255,255))
+     #こうかとんの画像をロード
      img = pg.image.load("fig/3.png")
+     #Gameoverのテキストrectの中心を画面の真ん中にblit
      txt_rct = txt.get_rect()
      txt_rct.center = (WIDTH/2,HEIGHT/2)
      screen1.blit(txt,txt_rct)
      screen.blit(screen1,(0,0))
+     #こうかとんの画像rectのcenterをテキストと同じにし、
+     #右の画像をテキストの右に設定し、左の画像をテキストの左に設定した。
      img_rct = img.get_rect()
      img_rct.center = txt_rct.center
      img_rct.right = txt_rct.left
@@ -41,7 +49,6 @@ def gameover(screen: pg.Surface) -> None:
 
      pg.display.update()
      time.sleep(5)
-
     
 
 
@@ -72,7 +79,7 @@ def main():
         screen.blit(bg_img, [0, 0]) 
         if kk_rct.colliderect(bb_rct):
            gameover(screen)
-           return
+           return #main関数から出る
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
